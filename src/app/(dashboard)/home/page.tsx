@@ -113,10 +113,6 @@ const HomePage = () => {
     }
   ]
 
-  const handleExerciseClick = (exerciseId: number) => {
-    router.push(`/exam/${exerciseId}`)
-  }
-
   return (
     <Box sx={{
       p: { xs: 2, md: 4 },
@@ -316,7 +312,7 @@ const HomePage = () => {
                 <Grid container spacing={3}>
                   {[1, 2, 3].map((item) => (
                     <Grid item xs={12} sm={6} key={item}>
-                      <ExerciseCard>
+                      <ExerciseCard onClick={() => router.push('/practice/completed-exams/math-2/review')}>
                         <CardContent sx={{ p: 3 }}>
                           <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                             <ExerciseIcon sx={{ fontSize: 32, color: colors.text.primary, mr: 2 }} />
@@ -352,7 +348,7 @@ const HomePage = () => {
                 <Grid container spacing={3}>
                   {aiSuggestions.map((suggestion) => (
                     <Grid item xs={12} sm={6} key={suggestion.id}>
-                      <ExerciseCard onClick={() => handleExerciseClick(suggestion.id)}>
+                      <ExerciseCard>
                         <CardContent sx={{ p: 3 }}>
                           <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                             <RobotIcon sx={{ fontSize: 32, color: colors.accent.purple, mr: 2 }} />
@@ -410,6 +406,7 @@ const HomePage = () => {
                             </Box>
                             <Button
                               variant="contained"
+                              onClick={() => router.push('/practice/exam/a/easy')}
                               startIcon={<PlayIcon />}
                               sx={{
                                 mt: 1,
