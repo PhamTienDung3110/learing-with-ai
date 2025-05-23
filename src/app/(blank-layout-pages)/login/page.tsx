@@ -1,22 +1,18 @@
+'use client'
+
 // Next Imports
-import type { Metadata } from 'next'
+
+import LoginV1 from '@/views/Login'
 
 // Component Imports
-import Login from '@views/Login'
 
-// Server Action Imports
-import { getServerMode } from '@core/utils/serverHelpers'
+const LoginPage = () => {
 
-export const metadata: Metadata = {
-  title: 'Login',
-  description: 'Login to your account'
-}
-
-const LoginPage = async () => {
-  // Vars
-  const mode = await getServerMode()
-
-  return <Login mode={mode} />
+  return (
+    <div className='flex flex-col justify-center items-center min-bs-[100dvh] p-6'>
+      <LoginV1 />
+    </div>
+  )
 }
 
 export default LoginPage

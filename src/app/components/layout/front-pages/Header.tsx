@@ -7,11 +7,11 @@ import { useState } from 'react'
 import Link from 'next/link'
 
 // MUI Imports
+
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import useScrollTrigger from '@mui/material/useScrollTrigger'
 import type { Theme } from '@mui/material/styles'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 // Third-party Imports
 import classnames from 'classnames'
@@ -22,8 +22,8 @@ import type { Mode } from '@core/types'
 // Component Imports
 import Logo from '@components/layout/shared/Logo'
 import ModeDropdown from '@components/layout/shared/ModeDropdown'
-import FrontMenu from './FrontMenu'
 import CustomIconButton from '@core/components/mui/IconButton'
+import FrontMenu from './FrontMenu'
 
 // Util Imports
 import { frontLayoutClasses } from '@layouts/utils/layoutClasses'
@@ -32,6 +32,7 @@ import { frontLayoutClasses } from '@layouts/utils/layoutClasses'
 import styles from './styles.module.css'
 
 const Header = ({ mode }: { mode: Mode }) => {
+
   // States
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
@@ -39,14 +40,14 @@ const Header = ({ mode }: { mode: Mode }) => {
   const isBelowLgScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
 
   // Detect window scroll
-  const trigger = useScrollTrigger({
-    threshold: 0,
-    disableHysteresis: true
-  })
+  // const trigger = useScrollTrigger({
+  //   threshold: 0,
+  //   disableHysteresis: true
+  // })
 
   return (
     <header className={classnames(frontLayoutClasses.header, styles.header)}>
-      <div className={classnames(frontLayoutClasses.navbar, styles.navbar, { [styles.headerScrolled]: trigger })}>
+      <div className={classnames(frontLayoutClasses.navbar, styles.navbar, styles.headerScrolled)}>
         <div className={classnames(frontLayoutClasses.navbarContent, styles.navbarContent)}>
           {isBelowLgScreen ? (
             <div className='flex items-center gap-2 sm:gap-4'>
@@ -80,14 +81,12 @@ const Header = ({ mode }: { mode: Mode }) => {
               </CustomIconButton>
             ) : (
               <Button
-                component={Link}
+                onClick={() => window.location.href = '/login'}
                 variant='contained'
-                href='https://1.envato.market/vuexy_admin'
-                startIcon={<i className='tabler-shopping-cart text-xl' />}
+                startIcon={<i className='tabler-login text-xl' />}
                 className='whitespace-nowrap'
-                target='_blank'
               >
-                Purchase Now
+                Đăng nhập
               </Button>
             )}
           </div>

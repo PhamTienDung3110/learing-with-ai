@@ -60,19 +60,6 @@ const AIChatPage = () => {
     }
   ])
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }
-
-  // Thêm useEffect để scroll xuống dưới cùng khi component mount
-  useEffect(() => {
-    scrollToBottom()
-  }, [])
-
-  useEffect(() => {
-    scrollToBottom()
-  }, [chatHistory])
-
   useEffect(() => {
     if (examId) {
       // TODO: Gọi API lấy thông tin đề thi và câu hỏi

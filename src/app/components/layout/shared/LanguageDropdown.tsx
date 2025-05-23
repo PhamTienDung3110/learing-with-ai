@@ -16,14 +16,11 @@ import ClickAwayListener from '@mui/material/ClickAwayListener'
 import MenuList from '@mui/material/MenuList'
 import MenuItem from '@mui/material/MenuItem'
 
-// Type Imports
-import type { Locale } from '@configs/i18n'
-
 // Hook Imports
 import { useSettings } from '@core/hooks/useSettings'
 
 type LanguageDataType = {
-  langCode: Locale
+  langCode: string
   langName: string
 }
 

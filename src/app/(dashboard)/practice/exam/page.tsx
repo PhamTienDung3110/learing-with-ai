@@ -5,434 +5,440 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 import {
+  AccessTime as AccessTimeIcon,
+  Clear as ClearIcon,
+  EmojiEvents as EmojiEventsIcon,
+  HelpOutline as HelpOutlineIcon,
+  Search as SearchIcon,
+  Visibility as VisibilityIcon,
+  Close as CloseIcon
+} from '@mui/icons-material'
+import {
   Avatar,
   Box,
   Button,
   Card,
   CardContent,
-  CardHeader,
   Chip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
   Divider,
+  FormControl,
+  FormControlLabel,
   Grid,
   IconButton,
-  LinearProgress,
+  InputAdornment,
+  InputLabel,
+  MenuItem,
   Paper,
-  Typography,
-  alpha
+  Radio,
+  RadioGroup,
+  Select,
+  TextField,
+  Typography
 } from '@mui/material'
 
-import {
-  Assignment as AssignmentIcon,
-  Biotech as BiotechIcon,
-  EmojiEvents as EmojiEventsIcon,
-  MoreVert as MoreVertIcon,
-  School as SchoolIcon,
-  Science as ScienceIcon,
-  TrendingUp as TrendingUpIcon,
-} from '@mui/icons-material'
+const examList = [
+  // Toán
+  {
+    id: 'math-1',
+    title: 'Đề thi thử Toán học số 1',
+    difficulty: 'easy',
+    time: 90,
+    questions: 50,
+    completed: false,
+    subject: 'Toán học',
+    views: 120,
+    attempts: 10
+  },
+  {
+    id: 'math-2',
+    title: 'Đề thi thử Toán học số 2',
+    difficulty: 'medium',
+    time: 90,
+    questions: 50,
+    completed: true,
+    subject: 'Toán học',
+    views: 80,
+    attempts: 5
+  },
+  {
+    id: 'math-3',
+    title: 'Đề thi thử Toán học số 3',
+    difficulty: 'hard',
+    time: 90,
+    questions: 50,
+    completed: false,
+    subject: 'Toán học',
+    views: 60,
+    attempts: 2
+  },
+
+  // Lý
+  {
+    id: 'physics-1',
+    title: 'Đề thi thử Vật lý số 1',
+    difficulty: 'easy',
+    time: 60,
+    questions: 40,
+    completed: false,
+    subject: 'Vật lý',
+    views: 100,
+    attempts: 7
+  },
+  {
+    id: 'physics-2',
+    title: 'Đề thi thử Vật lý số 2',
+    difficulty: 'medium',
+    time: 60,
+    questions: 40,
+    completed: true,
+    subject: 'Vật lý',
+    views: 90,
+    attempts: 4
+  },
+
+  // Hóa
+  {
+    id: 'chemistry-1',
+    title: 'Đề thi thử Hóa học số 1',
+    difficulty: 'easy',
+    time: 60,
+    questions: 40,
+    completed: false,
+    subject: 'Hóa học',
+    views: 70,
+    attempts: 3
+  }
+]
+
+const difficultyOptions = [
+  { value: '', label: 'Tất cả' },
+  { value: 'easy', label: 'Dễ' },
+  { value: 'medium', label: 'Trung bình' },
+  { value: 'hard', label: 'Khó' }
+]
+
+const questionCountOptions = [
+  { value: '', label: 'Tất cả' },
+  { value: '0-20', label: '0-20 câu' },
+  { value: '21-40', label: '21-40 câu' },
+  { value: '41-60', label: '41-60 câu' },
+  { value: '61-100', label: '61-100 câu' }
+]
+
+const sortOptions = [
+  { value: 'newest', label: 'Mới nhất' },
+  { value: 'popular', label: 'Phổ biến' },
+  { value: 'attempts', label: 'Bán chạy' },
+  { value: 'questions', label: 'Số câu' }
+]
+
+const subjectOptions = [
+  { value: '', label: 'Tất cả' },
+  { value: 'Toán học', label: 'Toán học' },
+  { value: 'Vật lý', label: 'Vật lý' },
+  { value: 'Hóa học', label: 'Hóa học' }
+]
+
+const getDifficultyColor = (difficulty: string) => {
+  switch (difficulty) {
+    case 'easy':
+      return 'success'
+    case 'medium':
+      return 'warning'
+    case 'hard':
+      return 'error'
+    default:
+      return 'default'
+  }
+}
 
 const ExamPage = () => {
-  const router = useRouter()
-  const [subject, setSubject] = useState('')
-  const [selectedExam, setSelectedExam] = useState('')
-  const [examType, setExamType] = useState('full')
+  const router = useRouter();
+  const [selectedExam, setSelectedExam] = useState<any>(null);
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
 
-  const subjects = [
-    { 
-      value: 'math', 
-      label: 'Toán học',
-      icon: <SchoolIcon />,
-      color: 'primary',
-      description: 'Đề thi thử môn Toán học',
-      totalExams: 10,
-      completedExams: 3
-    },
-    { 
-      value: 'physics', 
-      label: 'Vật lý',
-      icon: <ScienceIcon />,
-      color: 'success',
-      description: 'Đề thi thử môn Vật lý',
-      totalExams: 8,
-      completedExams: 2
-    },
-    { 
-      value: 'chemistry', 
-      label: 'Hóa học',
-      icon: <BiotechIcon />,
-      color: 'warning',
-      description: 'Đề thi thử môn Hóa học',
-      totalExams: 8,
-      completedExams: 1
+  const [filters, setFilters] = useState({
+    difficulty: '',
+    questionCount: '',
+    searchQuery: '',
+    subject: ''
+  })
+
+  const [sort, setSort] = useState('newest')
+
+  // Lọc đề thi
+  let filteredExams = examList.filter(exam => {
+    let ok = true
+
+    if (filters.difficulty) ok = ok && exam.difficulty === filters.difficulty
+    if (filters.subject) ok = ok && exam.subject === filters.subject
+
+    if (filters.questionCount) {
+      const [min, max] = filters.questionCount.split('-').map(Number)
+
+      ok = ok && exam.questions >= min && exam.questions <= max
     }
-  ]
 
-  const examTypes = [
-    {
-      value: 'full',
-      label: 'Đề thi đầy đủ',
-      icon: <AssignmentIcon />,
-      description: 'Làm bài thi đầy đủ với thời gian quy định'
-    },
-    {
-      value: 'practice',
-      label: 'Luyện tập trắc nghiệm',
-      icon: <TrendingUpIcon />,
-      description: 'Luyện tập từng câu trắc nghiệm'
-    }
-  ]
+    if (filters.searchQuery) ok = ok && exam.title.toLowerCase().includes(filters.searchQuery.toLowerCase())
 
-  // Mock data cho danh sách đề thi
-  const examList = {
-    math: [
-      {
-        id: 'math-1',
-        title: 'Đề thi thử Toán học số 1',
-        difficulty: 'easy',
-        time: 90,
-        questions: 50,
-        completed: false
-      },
-      {
-        id: 'math-2',
-        title: 'Đề thi thử Toán học số 2',
-        difficulty: 'medium',
-        time: 90,
-        questions: 50,
-        completed: true
-      },
-      {
-        id: 'math-3',
-        title: 'Đề thi thử Toán học số 3',
-        difficulty: 'hard',
-        time: 90,
-        questions: 50,
-        completed: false
-      }
-    ],
-    physics: [
-      {
-        id: 'physics-1',
-        title: 'Đề thi thử Vật lý số 1',
-        difficulty: 'easy',
-        time: 60,
-        questions: 40,
-        completed: false
-      },
-      {
-        id: 'physics-2',
-        title: 'Đề thi thử Vật lý số 2',
-        difficulty: 'medium',
-        time: 60,
-        questions: 40,
-        completed: true
-      }
-    ],
-    chemistry: [
-      {
-        id: 'chemistry-1',
-        title: 'Đề thi thử Hóa học số 1',
-        difficulty: 'easy',
-        time: 60,
-        questions: 40,
-        completed: false
-      }
-    ]
-  }
+    return ok
+  })
 
-  const handleStartExam = () => {
-    if (!selectedExam) return
-    router.push(`/practice/exam/${subject}/${selectedExam}?type=${examType}`)
-  }
+  // Sắp xếp
+  if (sort === 'newest') filteredExams = [...filteredExams].reverse()
+  if (sort === 'popular') filteredExams = [...filteredExams].sort((a, b) => b.views - a.views)
+  if (sort === 'attempts') filteredExams = [...filteredExams].sort((a, b) => b.attempts - a.attempts)
+  if (sort === 'questions') filteredExams = [...filteredExams].sort((a, b) => b.questions - a.questions)
 
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case 'easy':
-        return 'success'
-      case 'medium':
-        return 'warning'
-      case 'hard':
-        return 'error'
-      default:
-        return 'default'
-    }
-  }
+  const handleStartExam = (exam: any) => {
+    setSelectedExam(exam);
+    setOpenConfirmDialog(true);
+  };
 
-  const getDifficultyLabel = (difficulty: string) => {
-    switch (difficulty) {
-      case 'easy':
-        return 'Dễ'
-      case 'medium':
-        return 'Trung bình'
-      case 'hard':
-        return 'Khó'
-      default:
-        return difficulty
-    }
-  }
+  const handleConfirmStart = () => {
+    setOpenConfirmDialog(false);
+    router.push(`/practice/exam/${selectedExam.subject.toLowerCase()}/${selectedExam.difficulty}`);
+  };
 
   return (
-    <Grid container spacing={4}>
-      {/* Phần chọn loại đề thi */}
-      <Grid item xs={12}>
-        <Card elevation={2} sx={{ borderRadius: 2 }}>
-          <CardHeader 
-            title={
-              <Typography variant="h5" sx={{ fontWeight: 600 }}>
-                Chọn loại đề thi
-              </Typography>
-            }
-            action={
-              <IconButton>
-                <MoreVertIcon />
-              </IconButton>
-            }
-          />
-          <Divider />
-          <CardContent>
-            <Grid container spacing={3}>
-              {examTypes.map((type) => (
-                <Grid item xs={12} md={6} key={type.value}>
-                  <Paper
-                    elevation={examType === type.value ? 4 : 1}
-                    sx={{
-                      p: 3,
-                      cursor: 'pointer',
-                      border: 2,
-                      borderColor: examType === type.value ? 'primary.main' : 'transparent',
-                      borderRadius: 2,
-                      transition: 'all 0.2s ease',
-                      position: 'relative',
-                      '&:hover': {
-                        borderColor: 'primary.main',
-                        boxShadow: (theme) => `0 4px 12px ${alpha(theme.palette.primary.main, 0.15)}`
-                      }
-                    }}
-                    onClick={() => setExamType(type.value)}
-                  >
-                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                      <Avatar 
-                        sx={{ 
-                          bgcolor: examType === type.value ? 'primary.light' : 'action.hover',
-                          color: examType === type.value ? 'primary.main' : 'text.secondary',
-                          mr: 2,
-                          width: 48,
-                          height: 48,
-                          transition: 'all 0.2s ease'
-                        }}
-                      >
-                        {type.icon}
-                      </Avatar>
-                      <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                        {type.label}
-                      </Typography>
-                    </Box>
-                    <Typography variant="body2" color="text.secondary" sx={{ pl: 7 }}>
-                      {type.description}
+    <>
+      <Grid container spacing={8} sx={{ margin: '0px 0px 40px 0px' }}>
+        {/* Sidebar filter */}
+        <Grid item xs={12} md={3}>
+          <Paper elevation={2} sx={{ p: 3, borderRadius: 1, minHeight: 400 }}>
+            <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 2, color: 'primary.main' }}>
+              <SearchIcon sx={{ mr: 1, verticalAlign: 'middle' }} /> BỘ LỌC TÌM KIẾM
+            </Typography>
+            <TextField
+              fullWidth
+              size="small"
+              placeholder="Tìm kiếm đề thi..."
+              value={filters.searchQuery}
+              onChange={e => setFilters(f => ({ ...f, searchQuery: e.target.value }))}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                )
+              }}
+              sx={{ mb: 3 }}
+            />
+            <Divider sx={{ mb: 2 }} />
+            <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>
+              Môn học
+            </Typography>
+            <RadioGroup
+              value={filters.subject}
+              onChange={e => setFilters(f => ({ ...f, subject: e.target.value }))}
+              sx={{ mb: 2 }}
+            >
+              {subjectOptions.slice(1).map(opt => (
+                <FormControlLabel key={opt.value} value={opt.value} control={<Radio size="small" />} label={opt.label} />
+              ))}
+            </RadioGroup>
+            <Divider sx={{ mb: 2 }} />
+            <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>
+              Mức độ
+            </Typography>
+            <RadioGroup
+              value={filters.difficulty}
+              onChange={e => setFilters(f => ({ ...f, difficulty: e.target.value }))}
+              sx={{ mb: 2 }}
+            >
+              {difficultyOptions.slice(1).map(opt => (
+                <FormControlLabel key={opt.value} value={opt.value} control={<Radio size="small" />} label={opt.label} />
+              ))}
+            </RadioGroup>
+            <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>
+              Số câu hỏi
+            </Typography>
+            <RadioGroup
+              value={filters.questionCount}
+              onChange={e => setFilters(f => ({ ...f, questionCount: e.target.value }))}
+              sx={{ mb: 2 }}
+            >
+              {questionCountOptions.slice(1).map(opt => (
+                <FormControlLabel key={opt.value} value={opt.value} control={<Radio size="small" />} label={opt.label} />
+              ))}
+            </RadioGroup>
+            <Divider sx={{ mb: 2 }} />
+            <Button
+              fullWidth
+              variant="outlined"
+              color="secondary"
+              startIcon={<ClearIcon />}
+              onClick={() => setFilters({ difficulty: '', questionCount: '', searchQuery: '', subject: '' })}
+              sx={{ fontWeight: 600 }}
+            >
+              Xóa tất cả
+            </Button>
+          </Paper>
+        </Grid>
+        {/* Main content */}
+        <Grid item xs={12} md={9}>
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 3, gap: 2, flexWrap: 'wrap' }}>
+            <Typography variant="h5" sx={{ fontWeight: 700, flex: 1 }}>
+              Danh sách đề thi
+            </Typography>
+            <FormControl size="small">
+              <InputLabel>Sắp xếp theo</InputLabel>
+              <Select
+                value={sort}
+                label="Sắp xếp theo"
+                onChange={e => setSort(e.target.value)}
+                sx={{ minWidth: 150 }}
+              >
+                {sortOptions.map(opt => (
+                  <MenuItem key={opt.value} value={opt.value}>{opt.label}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+          <Grid container spacing={8}>
+            {filteredExams.length === 0 && (
+              <Grid item xs={12}>
+                <Paper sx={{ p: 5, textAlign: 'center', color: 'text.secondary' }}>
+                  Không tìm thấy đề thi phù hợp.
+                </Paper>
+              </Grid>
+            )}
+            {filteredExams.map(exam => (
+              <Grid item xs={12} sm={6} md={4} key={exam.id}>
+                <Card elevation={3} sx={{ borderRadius: 1, height: '100%', display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'visible' }}>
+                  <Box sx={{ position: 'absolute', top: 16, left: 16, zIndex: 2 }}>
+                    <Chip
+                      label={difficultyOptions.find(d => d.value === exam.difficulty)?.label}
+                      color={getDifficultyColor(exam.difficulty) as any}
+                      size="small"
+                      sx={{ fontWeight: 600, textTransform: 'capitalize' }}
+                    />
+                  </Box>
+                  <Box sx={{ height: 120, display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'grey.100', borderTopLeftRadius: 4, borderTopRightRadius: 4, margin: '8px' }}>
+                    <Avatar variant="rounded" sx={{ width: 80, height: 80, bgcolor: 'white', border: '2px solid', borderColor: 'primary.light' }}>
+                      <HelpOutlineIcon color="primary" sx={{ fontSize: 48 }} />
+                    </Avatar>
+                  </Box>
+                  <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 1 }}>
+                    <Typography variant="subtitle2" color="text.secondary" sx={{ fontWeight: 500, mb: 0.5 }}>
+                      {exam.subject}
                     </Typography>
-                  </Paper>
-                </Grid>
-              ))}
-            </Grid>
-          </CardContent>
-        </Card>
-      </Grid>
-
-      {/* Phần chọn môn học và đề thi */}
-      <Grid item xs={12}>
-        <Card elevation={2} sx={{ borderRadius: 2 }}>
-          <CardHeader 
-            title={
-              <Typography variant="h5" sx={{ fontWeight: 600 }}>
-                Chọn môn học và đề thi
-              </Typography>
-            }
-            action={
-              <IconButton>
-                <MoreVertIcon />
-              </IconButton>
-            }
-          />
-          <Divider />
-          <CardContent>
-            <Grid container spacing={3}>
-              {subjects.map((sub) => (
-                <Grid item xs={12} md={4} key={sub.value}>
-                  <Paper
-                    elevation={subject === sub.value ? 4 : 1}
-                    sx={{
-                      p: 3,
-                      cursor: 'pointer',
-                      border: 2,
-                      borderColor: subject === sub.value ? `${sub.color}.main` : 'transparent',
-                      borderRadius: 2,
-                      transition: 'all 0.2s ease',
-                      position: 'relative',
-                      '&:hover': {
-                        borderColor: `${sub.color}.main`,
-                        boxShadow: (theme) => `0 4px 12px ${alpha(theme.palette[sub.color as 'primary' | 'success' | 'warning' | 'error'].main, 0.15)}`
-                      }
-                    }}
-                    onClick={() => setSubject(sub.value)}
-                  >
-                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                      <Avatar 
-                        sx={{ 
-                          bgcolor: `${sub.color}.light`,
-                          color: `${sub.color}.main`,
-                          mr: 2,
-                          width: 48,
-                          height: 48,
-                          transition: 'all 0.2s ease'
-                        }}
-                      >
-                        {sub.icon}
-                      </Avatar>
-                      <Box>
-                        <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                          {sub.label}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {sub.description}
-                        </Typography>
+                    <Typography variant="h6" sx={{ fontWeight: 700, minHeight: 48 }}>
+                      {exam.title}
+                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mt: 1, mb: 1 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                        <HelpOutlineIcon fontSize="small" color="action" />
+                        <Typography variant="body2" color="text.secondary">{exam.questions} câu</Typography>
+                      </Box>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                        <AccessTimeIcon fontSize="small" color="action" />
+                        <Typography variant="body2" color="text.secondary">{exam.time} phút</Typography>
                       </Box>
                     </Box>
-                    <Box sx={{ mt: 3 }}>
-                      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                        <Typography variant="body2" color="text.secondary">
-                          Tiến độ
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
-                          {sub.completedExams}/{sub.totalExams} đề
-                        </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                        <VisibilityIcon fontSize="small" color="action" />
+                        <Typography variant="body2" color="text.secondary">{exam.views}</Typography>
                       </Box>
-                      <LinearProgress 
-                        variant="determinate" 
-                        value={(sub.completedExams / sub.totalExams) * 100}
-                        sx={{
-                          height: 8,
-                          borderRadius: 4,
-                          bgcolor: `${sub.color}.lighter`,
-                          '& .MuiLinearProgress-bar': {
-                            bgcolor: `${sub.color}.main`,
-                            borderRadius: 4
-                          }
-                        }}
-                      />
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                        <EmojiEventsIcon fontSize="small" color="action" />
+                        <Typography variant="body2" color="text.secondary">{exam.attempts}</Typography>
+                      </Box>
                     </Box>
-                  </Paper>
-                </Grid>
-              ))}
-            </Grid>
-
-            {/* Danh sách đề thi */}
-            {subject && (
-              <>
-                <Box sx={{ mt: 4, mb: 3 }}>
-                  <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                    Danh sách đề thi {subjects.find(s => s.value === subject)?.label}
-                  </Typography>
-                </Box>
-                <Grid container spacing={3}>
-                  {examList[subject as keyof typeof examList]?.map((exam) => (
-                    <Grid item xs={12} md={6} key={exam.id}>
-                      <Paper
-                        elevation={selectedExam === exam.id ? 4 : 1}
-                        sx={{
-                          p: 3,
-                          cursor: 'pointer',
-                          border: 2,
-                          borderColor: selectedExam === exam.id ? 'primary.main' : 'transparent',
-                          borderRadius: 2,
-                          transition: 'all 0.2s ease',
-                          position: 'relative',
-                          height: '100%',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          '&:hover': {
-                            borderColor: 'primary.main',
-                            boxShadow: (theme) => `0 4px 12px ${alpha(theme.palette.primary.main, 0.15)}`
-                          }
-                        }}
-                        onClick={() => setSelectedExam(exam.id)}
-                      >
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-                          <Typography variant="h6" sx={{ fontWeight: 600, flex: 1, pr: 2 }}>
-                            {exam.title}
-                          </Typography>
-                          <Chip 
-                            label={getDifficultyLabel(exam.difficulty)}
-                            color={getDifficultyColor(exam.difficulty) as any}
-                            size="small"
-                            sx={{ fontWeight: 600, flexShrink: 0 }}
-                          />
-                        </Box>
-                        <Box sx={{ display: 'flex', gap: 3, mb: 2 }}>
-                          <Box>
-                            <Typography variant="body2" color="text.secondary">
-                              Thời gian
-                            </Typography>
-                            <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                              {exam.time} phút
-                            </Typography>
-                          </Box>
-                          <Box>
-                            <Typography variant="body2" color="text.secondary">
-                              Số câu hỏi
-                            </Typography>
-                            <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                              {exam.questions} câu
-                            </Typography>
-                          </Box>
-                        </Box>
-                        <Box sx={{ mt: 'auto', pt: 2 }}>
-                          {exam.completed && (
-                            <Chip 
-                              label="Đã hoàn thành"
-                              color="success"
-                              size="small"
-                            />
-                          )}
-                        </Box>
-                      </Paper>
-                    </Grid>
-                  ))}
-                </Grid>
-
-                {/* Nút bắt đầu */}
-                {selectedExam && (
-                  <Box sx={{ mt: 4 }}>
                     <Button
                       variant="contained"
                       color="primary"
+                      onClick={() => handleStartExam(exam)}
                       fullWidth
-                      size="large"
-                      onClick={handleStartExam}
-                      startIcon={<EmojiEventsIcon />}
-                      sx={{
-                        py: 2,
-                        borderRadius: 2,
-                        fontSize: '1.1rem',
-                        fontWeight: 600,
-                        textTransform: 'none',
-                        boxShadow: (theme) => `0 8px 16px ${alpha(theme.palette.primary.main, 0.25)}`,
-                        '&:hover': {
-                          transform: 'translateY(-2px)',
-                          boxShadow: (theme) => `0 12px 20px ${alpha(theme.palette.primary.main, 0.3)}`
-                        },
-                        transition: 'all 0.3s ease'
-                      }}
+                      sx={{ mt: 'auto', fontWeight: 700, borderRadius: 1, textTransform: 'none', py: 1.2 }}
                     >
-                      Bắt đầu làm bài
+                      Vào thi
                     </Button>
-                  </Box>
-                )}
-              </>
-            )}
-          </CardContent>
-        </Card>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
       </Grid>
-    </Grid>
+
+      <Dialog
+        open={openConfirmDialog}
+        onClose={() => setOpenConfirmDialog(false)}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Box sx={{ fontWeight: 700 }}>
+            Xác nhận vào thi
+          </Box>
+          <IconButton onClick={() => setOpenConfirmDialog(false)}>
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          {selectedExam && (
+            <Box sx={{ mt: 2 }}>
+              <Box sx={{ mb: 2, fontWeight: 600, fontSize: '1.25rem' }}>
+                {selectedExam.title}
+              </Box>
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <HelpOutlineIcon color="action" />
+                    <Typography>Số câu hỏi: {selectedExam.questions}</Typography>
+                  </Box>
+                </Grid>
+                <Grid item xs={6}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <AccessTimeIcon color="action" />
+                    <Typography>Thời gian: {selectedExam.time} phút</Typography>
+                  </Box>
+                </Grid>
+                <Grid item xs={6}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Chip
+                      label={difficultyOptions.find(d => d.value === selectedExam.difficulty)?.label}
+                      color={getDifficultyColor(selectedExam.difficulty) as any}
+                      size="small"
+                    />
+                  </Box>
+                </Grid>
+                <Grid item xs={6}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Typography>Môn: {selectedExam.subject}</Typography>
+                  </Box>
+                </Grid>
+              </Grid>
+              <Typography sx={{ mt: 3, color: 'warning.main', fontWeight: 500 }}>
+                Lưu ý: Khi bắt đầu làm bài, thời gian sẽ được tính ngay lập tức và không thể tạm dừng.
+              </Typography>
+            </Box>
+          )}
+        </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 3 }}>
+          <Button
+            variant="outlined"
+            onClick={() => setOpenConfirmDialog(false)}
+            sx={{ fontWeight: 600 }}
+          >
+            Hủy
+          </Button>
+          <Button
+            variant="contained"
+            onClick={handleConfirmStart}
+            sx={{ fontWeight: 600 }}
+          >
+            Xác nhận vào thi
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   )
 }
 

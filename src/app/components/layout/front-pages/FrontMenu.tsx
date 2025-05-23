@@ -4,15 +4,15 @@
 import { useEffect } from 'react'
 
 // Next Imports
-import { usePathname } from 'next/navigation'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 // MUI Imports
-import Typography from '@mui/material/Typography'
 import Drawer from '@mui/material/Drawer'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import type { Theme } from '@mui/material/styles'
 import IconButton from '@mui/material/IconButton'
+import type { Theme } from '@mui/material/styles'
+import Typography from '@mui/material/Typography'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 // Third-party Imports
 import classnames from 'classnames'
@@ -21,7 +21,6 @@ import classnames from 'classnames'
 import type { Mode } from '@core/types'
 
 // Hook Imports
-import { useIntersection } from '@/hooks/useIntersection'
 
 // Component Imports
 // import DropdownMenu from './DropdownMenu'
@@ -78,7 +77,6 @@ const FrontMenu = (props: Props) => {
   // Hooks
   const pathname = usePathname()
   const isBelowLgScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'))
-  const { intersections } = useIntersection()
 
   useEffect(() => {
     if (!isBelowLgScreen && isDrawerOpen) {
@@ -92,14 +90,9 @@ const FrontMenu = (props: Props) => {
       <Typography
         color='text.primary'
         component={Link}
-        href='/front-pages/landing-page'
+        href='/home'
         className={classnames('font-medium plb-3 pli-1.5 hover:text-primary', {
-          'text-primary':
-            !intersections.features &&
-            !intersections.team &&
-            !intersections.faq &&
-            !intersections['contact-us'] &&
-            pathname === '/front-pages/landing-page'
+          'text-primary': pathname === '/home'
         })}
       >
         Trang chủ
@@ -107,9 +100,9 @@ const FrontMenu = (props: Props) => {
       <Typography
         color='text.primary'
         component={Link}
-        href='/practice'
+        href='/practice/exam'
         className={classnames('font-medium plb-3 pli-1.5 hover:text-primary', {
-          'text-primary': intersections.features
+          'text-primary': pathname.includes('/practice/exam')
         })}
       >
         Chọn đề thi
@@ -117,9 +110,9 @@ const FrontMenu = (props: Props) => {
       <Typography
         color='text.primary'
         component={Link}
-        href='/practice'
+        href='/practice/completed-exams'
         className={classnames('font-medium plb-3 pli-1.5 hover:text-primary', {
-          'text-primary': intersections.team
+          'text-primary': pathname.includes('/practice/completed-exams')
         })}
       >
         Đề đã làm
@@ -129,7 +122,7 @@ const FrontMenu = (props: Props) => {
         component={Link}
         href='/ai-chat'
         className={classnames('font-medium plb-3 pli-1.5 hover:text-primary', {
-          'text-primary': intersections.faq
+          'text-primary': pathname === '/ai-chat'
         })}
       >
         Hỏi AI
@@ -154,7 +147,9 @@ const FrontMenu = (props: Props) => {
         component={Link}
         color='text.primary'
         href='/progress'
-        className='font-medium plb-3 pli-1.5 hover:text-primary'
+        className={classnames('font-medium plb-3 pli-1.5 hover:text-primary', {
+          'text-primary': pathname === '/progress'
+        })}
       >
         Báo cáo
       </Typography>

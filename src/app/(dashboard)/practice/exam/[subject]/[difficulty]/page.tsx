@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react'
 
 
+import { useRouter } from 'next/navigation'
+
 import {
   Cancel as CancelIcon,
   CheckCircle as CheckCircleIcon,
@@ -282,12 +284,13 @@ const mockExam = {
 }
 
 const ExamPage = () => {
-  
+
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [answers, setAnswers] = useState<Record<number, string>>({})
   const [timeLeft, setTimeLeft] = useState(mockExam.duration * 60) // Đổi phút thành giây
   const [showSubmitDialog, setShowSubmitDialog] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  const router = useRouter()
+  const isSubmitted = false;
 
   // Xử lý đếm ngược thời gian
   useEffect(() => {
@@ -296,8 +299,8 @@ const ExamPage = () => {
         setTimeLeft(prev => prev - 1)
       }, 1000)
 
-      
-return () => clearInterval(timer)
+
+      return () => clearInterval(timer)
     }
   }, [timeLeft, isSubmitted])
 
@@ -321,16 +324,15 @@ return () => clearInterval(timer)
   }
 
   const handleSubmit = () => {
-    setIsSubmitted(true)
-    setShowSubmitDialog(false)
+    router.push(`/practice/completed-exams/math-2/review`)
   }
 
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60)
     const remainingSeconds = seconds % 60
 
-    
-return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`
+
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`
   }
 
   const calculateScore = () => {
@@ -341,8 +343,8 @@ return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`
         correctAnswers++
       }
     })
-    
-return (correctAnswers / mockExam.questions.length) * 10
+
+    return (correctAnswers / mockExam.questions.length) * 10
   }
 
   return (
@@ -361,8 +363,8 @@ return (correctAnswers / mockExam.questions.length) * 10
                   {formatTime(timeLeft)}
                 </Typography>
               </Box>
-              <LinearProgress 
-                variant="determinate" 
+              <LinearProgress
+                variant="determinate"
                 value={(timeLeft / (mockExam.duration * 60)) * 100}
                 color={timeLeft < 300 ? 'error' : 'primary'}
               />
@@ -422,7 +424,7 @@ return (correctAnswers / mockExam.questions.length) * 10
                   <Typography variant="h5">
                     Câu {currentQuestion + 1}/{mockExam.questions.length}
                   </Typography>
-                  <Chip 
+                  <Chip
                     icon={<FlagIcon />}
                     label="Đánh dấu"
                     color="warning"
@@ -488,14 +490,14 @@ return (correctAnswers / mockExam.questions.length) * 10
                   <Typography variant="h4" color="primary.main" sx={{ mr: 2 }}>
                     {calculateScore().toFixed(1)} điểm
                   </Typography>
-                  <Chip 
+                  <Chip
                     icon={calculateScore() >= 5 ? <CheckCircleIcon /> : <CancelIcon />}
                     label={calculateScore() >= 5 ? 'Đạt' : 'Không đạt'}
                     color={calculateScore() >= 5 ? 'success' : 'error'}
                   />
                 </Box>
                 <Typography variant="body1" gutterBottom>
-                  Số câu đúng: {Object.values(answers).filter((answer, index) => 
+                  Số câu đúng: {Object.values(answers).filter((answer, index) =>
                     answer === mockExam.questions[index].correctAnswer
                   ).length}/{mockExam.questions.length}
                 </Typography>
