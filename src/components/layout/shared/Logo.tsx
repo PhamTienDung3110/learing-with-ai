@@ -2,7 +2,6 @@
 
 // React Imports
 import { useEffect, useRef } from 'react'
-import type { CSSProperties } from 'react'
 
 // Third-party Imports
 import styled from '@emotion/styled'
@@ -17,15 +16,15 @@ import VuexyLogo from '@core/svg/Logo'
 import themeConfig from '@configs/themeConfig'
 
 // Hook Imports
-import useVerticalNav from '@menu/hooks/useVerticalNav'
 import { useSettings } from '@core/hooks/useSettings'
+import useVerticalNav from '@menu/hooks/useVerticalNav'
 
 type LogoTextProps = {
   isHovered?: VerticalNavContextProps['isHovered']
   isCollapsed?: VerticalNavContextProps['isCollapsed']
   transitionDuration?: VerticalNavContextProps['transitionDuration']
   isBreakpointReached?: VerticalNavContextProps['isBreakpointReached']
-  color?: CSSProperties['color']
+  color?: any
 }
 
 const LogoText = styled.span<LogoTextProps>`
@@ -43,7 +42,7 @@ const LogoText = styled.span<LogoTextProps>`
       : 'opacity: 1; margin-inline-start: 12px;'}
 `
 
-const Logo = ({ color }: { color?: CSSProperties['color'] }) => {
+const Logo = ({ color }: any) => {
   // Refs
   const logoTextRef = useRef<HTMLSpanElement>(null)
 

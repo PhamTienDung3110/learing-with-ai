@@ -70,24 +70,45 @@ const Header = ({ mode }: { mode: Mode }) => {
           <div className='flex items-center gap-2 sm:gap-4'>
             <ModeDropdown />
             {isBelowLgScreen ? (
-              <CustomIconButton
-                component={Link}
-                variant='contained'
-                href='https://1.envato.market/vuexy_admin'
-                color='primary'
-                target='_blank'
-              >
-                <i className='tabler-shopping-cart text-xl' />
-              </CustomIconButton>
+              <div className='flex items-center gap-2'>
+                <CustomIconButton
+                  component={Link}
+                  variant='contained'
+                  href='/login'
+                  color='primary'
+                  target='_blank'
+                >
+                  <i className='tabler-shopping-cart text-xl' />
+                </CustomIconButton>
+                <CustomIconButton
+                  component={Link}
+                  href='/register'
+                  variant='contained'
+                  color='primary'
+                  target='_blank'
+                >
+                  <i className='tabler-user-plus text-xl' />
+                </CustomIconButton>
+              </div>
             ) : (
-              <Button
-                onClick={() => window.location.href = '/login'}
-                variant='contained'
-                startIcon={<i className='tabler-login text-xl' />}
-                className='whitespace-nowrap'
-              >
-                Đăng nhập
-              </Button>
+              <div className='flex items-center gap-2'>
+                <Button
+                  onClick={() => window.location.href = '/login'}
+                  variant='contained'
+                  startIcon={<i className='tabler-login text-xl' />}
+                  className='whitespace-nowrap'
+                >
+                  Đăng nhập
+                </Button>
+                <Button
+                  onClick={() => window.location.href = '/register'}
+                  variant='contained'
+                  startIcon={<i className='tabler-user-plus text-xl' />}
+                  className='whitespace-nowrap'
+                >
+                  Đăng ký
+                </Button>
+              </div>
             )}
           </div>
         </div>

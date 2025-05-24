@@ -92,7 +92,7 @@ const LoginV1 = () => {
               <Typography>Bạn chưa có tài khoản?</Typography>
               <Typography
                 component={Link}
-                href={'/'}
+                href={'/register'}
                 color='primary.main'
               >
                 Tạo tài khoản
