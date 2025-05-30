@@ -297,7 +297,7 @@ const IntroductionPage = () => {
             <Grid item xs={12} md={6}>
               <Box
                 component="img"
-                src="https://undraw.co/illustrations/online-test.svg"
+                src="/images/undraw_in-the-zone_07y7.svg"
                 alt="Hero Illustration"
                 sx={{
                   width: '100%',
@@ -601,7 +601,7 @@ const IntroductionPage = () => {
             <Grid item xs={12} md={6}>
               <Box
                 component="img"
-                src="https://undraw.co/illustrations/achieving-goals.svg"
+                src="/images/undraw_learning-sketchingsh.svg"
                 alt="Benefits Illustration"
                 sx={{
                   width: '100%',
