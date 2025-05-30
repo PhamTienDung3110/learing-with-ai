@@ -11,6 +11,11 @@ const verticalMenuData = (): VerticalMenuDataType[] => [
     label: 'About',
     href: '/about',
     icon: 'tabler-info-circle'
+  },
+  {
+    label: 'Bộ sách',
+    href: '/practice/books',
+    icon: 'tabler-book'
   }
 ]
 

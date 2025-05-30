@@ -127,6 +127,16 @@ const FrontMenu = (props: Props) => {
       >
         Hỏi AI
       </Typography>
+      <Typography
+        color='text.primary'
+        component={Link}
+        href='/practice/books'
+        className={classnames('font-medium plb-3 pli-1.5 hover:text-primary', {
+          'text-primary': pathname === '/practice/books'
+        })}
+      >
+        Bộ sách
+      </Typography>
       {/* <Typography
         color='text.primary'
         component={Link}
