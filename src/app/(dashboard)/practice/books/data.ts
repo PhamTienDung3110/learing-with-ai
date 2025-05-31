@@ -517,7 +517,7 @@ export const books: Book[] = [
     description: 'Bộ sách giáo khoa Cánh Diều cho lớp 12',
     icon: 'tabler-book',
     color: '#FF6B6B',
-    image: 'https://cdnphoto.dantri.com.vn/W6E31t2GCa8R0cnymB69iW63kSY=/thumb_w/1020/2024/06/30/anh-man-hinh-2024-06-30-luc-73650-sa-1719707848145.png',
+    image: 'https://down-vn.img.susercontent.com/file/vn-11134208-7r98o-lx0irhiv4gd507',
     views: 120,
     attempts: 10,
     time: 90,
