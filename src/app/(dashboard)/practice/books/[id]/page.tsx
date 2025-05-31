@@ -9,8 +9,7 @@ import { useRouter } from 'next/navigation'
 
 // MUI Imports
 import Box from '@mui/material/Box'
-import Card
-  from '@mui/material/Card'
+import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
@@ -32,9 +31,8 @@ import PaymentModal from '@/components/payment/PaymentModal'
 
 // Context Imports
 import { useCart } from '@/contexts/CartContext'
+import type { Subject, Chapter, Lesson } from '../data';
 import { books } from '../data'
-
-// Import data từ file chính
 
 interface BookDetailPageProps {
   params: Promise<{
@@ -45,7 +43,12 @@ interface BookDetailPageProps {
 const BookDetailPage = ({ params }: BookDetailPageProps) => {
   const router = useRouter()
   const resolvedParams = use(params)
-  const book = books.find(b => b.id === resolvedParams.id)
+  const decodedId = decodeURIComponent(resolvedParams.id)
+
+  console.log('Decoded ID:', decodedId)
+  const book = books.find(b => b.id === decodedId)
+
+  console.log('Found book:', book)
   const [expandedChapters, setExpandedChapters] = useState<string[]>([])
   const [openPaymentModal, setOpenPaymentModal] = useState(false)
   const { addToCart, items } = useCart()
@@ -54,6 +57,9 @@ const BookDetailPage = ({ params }: BookDetailPageProps) => {
     return (
       <Box sx={{ p: 4, textAlign: 'center' }}>
         <Typography variant="h5">Không tìm thấy bộ sách</Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+          ID: {decodedId}
+        </Typography>
       </Box>
     )
   }
@@ -74,12 +80,21 @@ const BookDetailPage = ({ params }: BookDetailPageProps) => {
       title: book.title,
       price: book.price,
       image: book.image,
-      subject: book.subject
+      subject: book.subjects.map(s => s.name).join(', ')
     })
     router.push('/practice/cart')
   }
 
   const isInCart = items.some(item => item.id === book.id)
+
+  // Tính tổng số bài học và bài mở khóa
+  const totalLessons = book.subjects.reduce((acc: number, subject: Subject) =>
+    acc + subject.chapters.reduce((chapterAcc: number, chapter: Chapter) =>
+      chapterAcc + chapter.lessons.length, 0), 0)
+
+  const totalUnlockedLessons = book.subjects.reduce((acc: number, subject: Subject) =>
+    acc + subject.chapters.reduce((chapterAcc: number, chapter: Chapter) =>
+      chapterAcc + chapter.lessons.filter(lesson => !lesson.isLocked).length, 0), 0)
 
   return (
     <>
@@ -95,88 +110,95 @@ const BookDetailPage = ({ params }: BookDetailPageProps) => {
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                   <Chip
                     icon={<Icon icon="tabler-lock-open" />}
-                    label={`${book.chapters.reduce((acc, chapter) => acc + chapter.lessons.filter(lesson => !lesson.isLocked).length, 0)} bài mở khóa`}
+                    label={`${totalUnlockedLessons} bài mở khóa`}
                     color="success"
                     variant="outlined"
                   />
                   <Chip
                     icon={<Icon icon="tabler-list" />}
-                    label={`${book.chapters.reduce((acc, chapter) => acc + chapter.lessons.length, 0)} bài học`}
+                    label={`${totalLessons} bài học`}
                     color="primary"
                     variant="outlined"
                   />
                 </Box>
               </Box>
               <List>
-                {book.chapters.map(chapter => (
-                  <Box key={chapter.id}>
-                    <ListItem
-                      component="div"
-                      onClick={() => handleChapterClick(chapter.id)}
-                      sx={{
-                        bgcolor: 'action.hover',
-                        borderRadius: 1,
-                        mb: 1,
-                        cursor: 'pointer'
-                      }}
-                    >
-                      <ListItemIcon>
-                        <Icon icon="tabler-book-2" />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={chapter.title}
-                        secondary={`${chapter.lessons.filter(lesson => !lesson.isLocked).length}/${chapter.lessons.length} bài mở khóa`}
-                      />
-                      {expandedChapters.includes(chapter.id) ? <ExpandLess /> : <ExpandMore />}
-                    </ListItem>
-                    <Collapse in={expandedChapters.includes(chapter.id)} timeout="auto" unmountOnExit>
-                      <List component="div" disablePadding>
-                        {chapter.lessons.map(lesson => (
-                          <ListItem
-                            key={lesson.id}
-                            component="div"
-                            onClick={() => !lesson.isLocked && handleLessonClick(lesson.id)}
-                            sx={{
-                              pl: 4,
-                              cursor: lesson.isLocked ? 'not-allowed' : 'pointer',
-                              opacity: lesson.isLocked ? 0.7 : 1
-                            }}
-                          >
-                            <ListItemIcon>
-                              {lesson.isLocked ? (
-                                <Icon icon="tabler-lock" color="error" />
-                              ) : (
-                                <Icon
-                                  icon="tabler-play"
-                                  color={lesson.difficulty === 'easy' ? 'success' : lesson.difficulty === 'medium' ? 'warning' : 'error'}
-                                />
-                              )}
-                            </ListItemIcon>
-                            <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-                              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                <Typography variant="body1">{lesson.title}</Typography>
-                                {lesson.isLocked && (
-                                  <Chip
-                                    icon={<Icon icon="tabler-lock" />}
-                                    label="Khóa"
-                                    size="small"
-                                    color="error"
-                                    variant="outlined"
-                                  />
-                                )}
-                              </Box>
-                              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1 }}>
-                                <Chip
-                                  label={lesson.difficulty === 'easy' ? 'Dễ' : lesson.difficulty === 'medium' ? 'Trung bình' : 'Khó'}
-                                  size="small"
-                                  color={lesson.difficulty === 'easy' ? 'success' : lesson.difficulty === 'medium' ? 'warning' : 'error'}
-                                />
-                              </Box>
-                            </Box>
-                          </ListItem>
-                        ))}
-                      </List>
-                    </Collapse>
+                {book.subjects.map((subject: Subject) => (
+                  <Box key={subject.id}>
+                    <Typography variant="h6" sx={{ mb: 2, color: 'primary.main' }}>
+                      {subject.name}
+                    </Typography>
+                    {subject.chapters.map((chapter: Chapter) => (
+                      <Box key={chapter.id}>
+                        <ListItem
+                          component="div"
+                          onClick={() => handleChapterClick(chapter.id)}
+                          sx={{
+                            bgcolor: 'action.hover',
+                            borderRadius: 1,
+                            mb: 1,
+                            cursor: 'pointer'
+                          }}
+                        >
+                          <ListItemIcon>
+                            <Icon icon="tabler-book-2" />
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={chapter.title}
+                            secondary={`${chapter.lessons.filter(lesson => !lesson.isLocked).length}/${chapter.lessons.length} bài mở khóa`}
+                          />
+                          {expandedChapters.includes(chapter.id) ? <ExpandLess /> : <ExpandMore />}
+                        </ListItem>
+                        <Collapse in={expandedChapters.includes(chapter.id)} timeout="auto" unmountOnExit>
+                          <List component="div" disablePadding>
+                            {chapter.lessons.map((lesson: Lesson) => (
+                              <ListItem
+                                key={lesson.id}
+                                component="div"
+                                onClick={() => !lesson.isLocked && handleLessonClick(lesson.id)}
+                                sx={{
+                                  pl: 4,
+                                  cursor: lesson.isLocked ? 'not-allowed' : 'pointer',
+                                  opacity: lesson.isLocked ? 0.7 : 1
+                                }}
+                              >
+                                <ListItemIcon>
+                                  {lesson.isLocked ? (
+                                    <Icon icon="tabler-lock" color="error" />
+                                  ) : (
+                                    <Icon
+                                      icon="tabler-play"
+                                      color={lesson.difficulty === 'easy' ? 'success' : lesson.difficulty === 'medium' ? 'warning' : 'error'}
+                                    />
+                                  )}
+                                </ListItemIcon>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                    <Typography variant="body1">{lesson.title}</Typography>
+                                    {lesson.isLocked && (
+                                      <Chip
+                                        icon={<Icon icon="tabler-lock" />}
+                                        label="Khóa"
+                                        size="small"
+                                        color="error"
+                                        variant="outlined"
+                                      />
+                                    )}
+                                  </Box>
+                                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1 }}>
+                                    <Chip
+                                      label={lesson.difficulty === 'easy' ? 'Dễ' : lesson.difficulty === 'medium' ? 'Trung bình' : 'Khó'}
+                                      size="small"
+                                      color={lesson.difficulty === 'easy' ? 'success' : lesson.difficulty === 'medium' ? 'warning' : 'error'}
+                                    />
+                                  </Box>
+                                </Box>
+                              </ListItem>
+                            ))}
+                          </List>
+                        </Collapse>
+                      </Box>
+                    ))}
                   </Box>
                 ))}
               </List>
@@ -206,7 +228,7 @@ const BookDetailPage = ({ params }: BookDetailPageProps) => {
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   <Icon icon="tabler-book" color="primary" />
                   <Typography variant="body2" color="text.secondary">
-                    Môn học: {book.subject}
+                    Môn học: {book.subjects.map(s => s.name).join(', ')}
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -234,7 +256,7 @@ const BookDetailPage = ({ params }: BookDetailPageProps) => {
                 variant="contained"
                 fullWidth
                 size="large"
-                onClick={() => handleLessonClick(book.chapters[0].lessons[0].id)}
+                onClick={() => handleLessonClick(book.subjects[0].chapters[0].lessons[0].id)}
                 startIcon={<Icon icon="tabler-play" />}
                 sx={{ mb: 2 }}
               >

@@ -13,7 +13,6 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
-import Chip from '@mui/material/Chip'
 import Divider from '@mui/material/Divider'
 import FormControl from '@mui/material/FormControl'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -32,7 +31,7 @@ import Typography from '@mui/material/Typography'
 import { Icon } from '@iconify/react'
 
 // Data Imports
-import { books, difficultyOptions, subjectOptions, sortOptions, gradeOptions } from './data'
+import { books, gradeOptions, sortOptions, subjectOptions } from './data'
 
 const BooksPage = () => {
   const router = useRouter()
@@ -50,15 +49,9 @@ const BooksPage = () => {
   let filteredBooks = books?.filter(book => {
     let ok = true
 
-    if (filters.difficulty) {
-      ok = ok && book.chapters.some(chapter =>
-        chapter.lessons.some(lesson => lesson.difficulty === filters.difficulty)
-      )
-    }
-
-    if (filters.subject) ok = ok && book.subject === filters.subject
     if (filters.grade) ok = ok && book.grade === parseInt(filters.grade)
     if (filters.searchQuery) ok = ok && book.title.toLowerCase().includes(filters.searchQuery.toLowerCase())
+    if (filters.subject) ok = ok && book.subjects.some(subject => subject.name === filters.subject)
 
     return ok
   })
@@ -93,42 +86,23 @@ const BooksPage = () => {
             suppressHydrationWarning
           />
           <Divider sx={{ mb: 2 }} />
-          <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>
+          <Typography variant="subtitle2" sx={{ fontWeight: 600, marginBottom: 1 }}>
             Môn học
           </Typography>
-          <RadioGroup
-            value={filters.subject}
-            onChange={e => setFilters(f => ({ ...f, subject: e.target.value }))}
-            sx={{ mb: 2 }}
-            suppressHydrationWarning
-          >
-            {subjectOptions.slice(1).map(opt => (
-              <FormControlLabel
-                key={opt.value}
-                value={opt.value}
-                control={<Radio size="small" suppressHydrationWarning />}
-                label={opt.label}
-              />
-            ))}
-          </RadioGroup>
-          <Divider sx={{ mb: 2 }} />
-          <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>
-            Mức độ
-          </Typography>
-          <RadioGroup
-            value={filters.difficulty}
-            onChange={e => setFilters(f => ({ ...f, difficulty: e.target.value }))}
-            suppressHydrationWarning
-          >
-            {difficultyOptions.slice(1).map(opt => (
-              <FormControlLabel
-                key={opt.value}
-                value={opt.value}
-                control={<Radio size="small" suppressHydrationWarning />}
-                label={opt.label}
-              />
-            ))}
-          </RadioGroup>
+          <FormControl fullWidth size="small" sx={{ mb: 3 }}>
+            <Select
+              value={filters.subject}
+              onChange={e => setFilters(f => ({ ...f, subject: e.target.value }))}
+              displayEmpty
+              suppressHydrationWarning
+            >
+              {subjectOptions.map(opt => (
+                <MenuItem key={opt.value} value={opt.value}>
+                  {opt.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <Divider sx={{ mb: 2 }} />
           <Typography variant="subtitle2" sx={{ fontWeight: 600, marginBottom: 1 }}>
             Lớp
@@ -183,21 +157,10 @@ const BooksPage = () => {
           {filteredBooks.map(book => (
             <Grid item xs={12} sm={6} md={4} key={book.id}>
               <Card elevation={3} sx={{ borderRadius: 1, height: '100%', display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'visible' }} suppressHydrationWarning>
-                <Box sx={{ position: 'absolute', top: 16, left: 16, zIndex: 2 }}>
-                  <Chip
-                    label={book.subject}
-                    color="primary"
-                    size="small"
-                    sx={{ fontWeight: 600, textTransform: 'capitalize' }}
-                  />
-                </Box>
                 <Box sx={{ height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', bgcolor: 'grey.100', borderTopLeftRadius: 4, borderTopRightRadius: 4, margin: '8px' }}>
                   <img src={book.image} alt={book.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </Box>
                 <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 1 }}>
-                  <Typography variant="subtitle2" color="text.secondary" sx={{ fontWeight: 500, marginBottom: 0.5 }}>
-                    {book.subject}
-                  </Typography>
                   <Typography variant="h6" sx={{ fontWeight: 700 }}>
                     {book.title}
                   </Typography>
