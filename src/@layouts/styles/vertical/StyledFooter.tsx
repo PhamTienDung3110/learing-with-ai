@@ -13,6 +13,9 @@ type StyledFooterProps = {
 }
 
 const StyledFooter = styled.footer<StyledFooterProps>`
+  margin-top: auto;
+  width: 100%;
+
   &.${verticalLayoutClasses.footerContentCompact} {
     &.${verticalLayoutClasses.footerDetached} {
       margin-inline: auto;

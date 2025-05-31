@@ -134,6 +134,8 @@ const RegisterV1 = () => {
                 }
               }}
             />
+            <CustomTextField fullWidth label='Số điện thoại phụ huynh' placeholder='Nhập số điện thoại phụ huynh' />
+            <CustomTextField fullWidth label='Email phụ huynh' placeholder='Nhập email phụ huynh' />
             <FormControlLabel
               control={<Checkbox />}
               label={

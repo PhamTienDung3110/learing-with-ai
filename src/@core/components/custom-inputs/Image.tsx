@@ -1,3 +1,5 @@
+'use client'
+
 // MUI Imports
 import Grid from '@mui/material/Grid2'
 import Checkbox from '@mui/material/Checkbox'
@@ -69,6 +71,7 @@ const CustomCheckboxImg = (props: CustomInputImgProps) => {
               name={`${name}-${value}`}
               checked={selected.includes(value)}
               onChange={() => handleChange(value)}
+              suppressHydrationWarning
             />
           )}
         </Root>

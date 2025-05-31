@@ -31,7 +31,7 @@ const AIChatPage = () => {
   const searchParams = useSearchParams()
   const examId = searchParams.get('examId')
   const messagesEndRef = useRef<HTMLDivElement>(null)
-  
+
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
@@ -113,17 +113,17 @@ const AIChatPage = () => {
       {/* Phần lịch sử chat */}
       <Grid item xs={12} md={2.5}>
         <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-          <CardHeader 
-            title="Lịch sử chat" 
+          <CardHeader
+            title="Lịch sử chat"
             sx={{ pb: 1 }}
           />
           <Divider />
           <List sx={{ p: 1, flex: 1, overflow: 'auto' }}>
             {chatSessions.map((session) => (
-              <ListItem 
-                key={session.id} 
+              <ListItem
+                key={session.id}
                 component="button"
-                sx={{ 
+                sx={{
                   mb: 1,
                   borderRadius: 1,
                   '&:hover': {
@@ -156,7 +156,7 @@ const AIChatPage = () => {
       {/* Phần chat chính */}
       <Grid item xs={12} md={9.5}>
         <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-          <CardHeader 
+          <CardHeader
             title={
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <SmartToyIcon color="primary" />
@@ -171,7 +171,7 @@ const AIChatPage = () => {
               <Box sx={{ flex: 1, overflow: 'auto', p: 2, minHeight: 0 }}>
                 <List>
                   {chatHistory.map((chat) => (
-                    <ListItem 
+                    <ListItem
                       key={chat.id}
                       sx={{
                         flexDirection: chat.sender === 'user' ? 'row-reverse' : 'row',
@@ -180,8 +180,8 @@ const AIChatPage = () => {
                       }}
                     >
                       <ListItemAvatar>
-                        <Avatar 
-                          sx={{ 
+                        <Avatar
+                          sx={{
                             bgcolor: chat.sender === 'ai' ? 'primary.main' : 'secondary.main',
                             width: 32,
                             height: 32
@@ -200,7 +200,7 @@ const AIChatPage = () => {
                           borderRadius: 2
                         }}
                       >
-                        <Typography variant="body1">{chat.message}</Typography>
+                        <Typography variant="body1" sx={{ color: chat.sender !== 'ai' ? 'white' : 'black' }}>{chat.message}</Typography>
                         <Typography variant="caption" sx={{ display: 'block', mt: 1, opacity: 0.7 }}>
                           {chat.timestamp}
                         </Typography>

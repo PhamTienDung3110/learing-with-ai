@@ -7,7 +7,6 @@ import { useState } from 'react'
 import Link from 'next/link'
 
 // MUI Imports
-
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import type { Theme } from '@mui/material/styles'
@@ -24,6 +23,7 @@ import Logo from '@components/layout/shared/Logo'
 import ModeDropdown from '@components/layout/shared/ModeDropdown'
 import CustomIconButton from '@core/components/mui/IconButton'
 import FrontMenu from './FrontMenu'
+import CartIcon from '@components/cart/CartIcon'
 
 // Util Imports
 import { frontLayoutClasses } from '@layouts/utils/layoutClasses'
@@ -67,19 +67,13 @@ const Header = ({ mode }: { mode: Mode }) => {
               <FrontMenu mode={mode} isDrawerOpen={isDrawerOpen} setIsDrawerOpen={setIsDrawerOpen} />
             </div>
           )}
-          <div className='flex items-center gap-2 sm:gap-4'>
+          <div className='flex items-center gap-1 sm:gap-1'>
             <ModeDropdown />
             {isBelowLgScreen ? (
-              <div className='flex items-center gap-2'>
-                <CustomIconButton
-                  component={Link}
-                  variant='contained'
-                  href='/login'
-                  color='primary'
-                  target='_blank'
-                >
-                  <i className='tabler-shopping-cart text-xl' />
-                </CustomIconButton>
+              <div className='flex items-center gap-1'>
+                <Link href='/practice/cart'>
+                  <CartIcon />
+                </Link>
                 <CustomIconButton
                   component={Link}
                   href='/register'
@@ -92,6 +86,9 @@ const Header = ({ mode }: { mode: Mode }) => {
               </div>
             ) : (
               <div className='flex items-center gap-2'>
+                <Link href='/practice/cart'>
+                  <CartIcon />
+                </Link>
                 <Button
                   onClick={() => window.location.href = '/login'}
                   variant='contained'

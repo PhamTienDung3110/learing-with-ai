@@ -14,7 +14,7 @@ const FrontLayout = async ({ children }: ChildrenType) => {
   return (
     <div className={frontLayoutClasses.root}>
       <Header mode={mode} />
-      <div className="w-[90%] mx-auto pt-2">
+      <div className="w-[90%] mx-auto pt-2" style={{ minHeight: 'calc(100vh - 80px - 375px  )' }}>
         {children}
       </div>
       <Footer mode={mode} />

@@ -1,3 +1,5 @@
+'use client'
+
 // MUI Imports
 import Grid from '@mui/material/Grid2'
 import Radio from '@mui/material/Radio'
@@ -129,13 +131,21 @@ const CustomInputHorizontal = (props: CustomInputHorizontalProps) => {
         })}
       >
         {type === 'radio' ? (
-          <RadioInput name={name} color={color} value={value} onChange={handleChange} checked={selected === value} />
+          <RadioInput
+            name={name}
+            color={color}
+            value={value}
+            onChange={handleChange}
+            checked={selected === value}
+            suppressHydrationWarning
+          />
         ) : (
           <CheckboxInput
             color={color}
             name={`${name}-${value}`}
             checked={selected.includes(value)}
             onChange={() => handleChange(value)}
+            suppressHydrationWarning
           />
         )}
         {renderData()}

@@ -54,7 +54,7 @@ export default plugin(function () {}, {
         successLg: 'var(--mui-customShadows-success-lg)'
       },
       colors: {
-        primary: 'var(--primary-color)',
+        primary: '#ebbf2f',
         primaryLight: 'var(--mui-palette-primary-lightOpacity)',
         primaryLighter: 'var(--mui-palette-primary-lighterOpacity)',
         secondary: 'var(--mui-palette-secondary-main)',

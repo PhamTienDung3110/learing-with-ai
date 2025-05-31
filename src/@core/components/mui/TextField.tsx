@@ -250,7 +250,7 @@ const TextFieldStyled = styled(TextField)<TextFieldProps>(({ theme }) => ({
   }
 }))
 
-const CustomTextField = forwardRef((props: TextFieldProps, ref) => {
+const CustomTextField = forwardRef<HTMLDivElement, TextFieldProps>((props, ref) => {
   const { size = 'small', slotProps, ...rest } = props
 
   return (
@@ -263,8 +263,11 @@ const CustomTextField = forwardRef((props: TextFieldProps, ref) => {
         ...slotProps,
         inputLabel: { ...slotProps?.inputLabel, shrink: true } as InputLabelProps
       }}
+      suppressHydrationWarning
     />
   )
 })
+
+CustomTextField.displayName = 'CustomTextField'
 
 export default CustomTextField

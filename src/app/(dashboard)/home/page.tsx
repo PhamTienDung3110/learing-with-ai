@@ -15,13 +15,15 @@ import {
   Assignment as ExerciseIcon,
   PlayArrow as PlayIcon,
   WavingHand as WaveIcon,
-  Star as StarIcon
+  Star as StarIcon,
+  TrendingUp as TrendingUpIcon,
+  Celebration as CelebrationIcon
 } from '@mui/icons-material'
 
 // Color Config
 const colors = {
   light: '#FFC107',
-  main: '#FFA000',
+  main: '#ebbf2f',
   dark: '#FF6F00',
   background: '#F8F9FA',
   text: {
@@ -112,6 +114,54 @@ const HomePage = () => {
       progress: 0
     }
   ]
+
+  // Mock data for topic statistics
+  const subjectStats = [
+    {
+      subject: 'Toán học',
+      accuracy: 85,
+      totalQuestions: 150,
+      strength: 'Mạnh',
+      color: colors.accent.blue,
+      topics: [
+        { name: 'Hàm số', accuracy: 75, totalQuestions: 50 },
+        { name: 'Tích phân', accuracy: 90, totalQuestions: 30 },
+        { name: 'Hình học', accuracy: 60, totalQuestions: 40 }
+      ]
+    },
+    {
+      subject: 'Vật lý',
+      accuracy: 70,
+      totalQuestions: 120,
+      strength: 'Trung bình',
+      color: colors.accent.green,
+      topics: [
+        { name: 'Cơ học', accuracy: 80, totalQuestions: 45 },
+        { name: 'Điện học', accuracy: 65, totalQuestions: 35 },
+        { name: 'Quang học', accuracy: 65, totalQuestions: 40 }
+      ]
+    },
+    {
+      subject: 'Hóa học',
+      accuracy: 65,
+      totalQuestions: 100,
+      strength: 'Yếu',
+      color: colors.accent.purple,
+      topics: [
+        { name: 'Hóa vô cơ', accuracy: 70, totalQuestions: 40 },
+        { name: 'Hóa hữu cơ', accuracy: 60, totalQuestions: 35 },
+        { name: 'Hóa phân tích', accuracy: 65, totalQuestions: 25 }
+      ]
+    }
+  ]
+
+  // Mock data for weekly progress
+  const weeklyProgress = {
+    completion: 10,
+    streak: 5,
+    totalExercises: 15,
+    improvement: 5
+  }
 
   return (
     <Box sx={{
@@ -212,6 +262,133 @@ const HomePage = () => {
           </Box>
         </CardContent>
       </GradientCard>
+
+      {/* Progress and Statistics Section */}
+      <Grid container spacing={4} sx={{ mb: 4 }}>
+        {/* Weekly Progress */}
+        <Grid item xs={12} md={6}>
+          <Card sx={{ borderRadius: '20px', boxShadow: '0 4px 20px rgba(0,0,0,0.08)', height: '100%' }}>
+            <CardContent sx={{ p: 4 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                <CelebrationIcon sx={{ fontSize: 40, color: colors.main, mr: 2 }} />
+                <Typography variant="h5" sx={{ fontWeight: 'bold', color: colors.main }}>
+                  Tiến độ tuần này
+                </Typography>
+              </Box>
+              <Box sx={{
+                backgroundColor: `${colors.main}15`,
+                borderRadius: '16px',
+                p: 3,
+                border: `1px solid ${colors.main}30`
+              }}>
+                <Typography variant="h6" sx={{ color: colors.main, fontWeight: 'bold', mb: 2 }}>
+                  🎉 Chúc mừng bạn đã đạt mức độ hoàn thành bài {weeklyProgress.completion}% trong tuần này!
+                </Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <FlameIcon sx={{ color: colors.accent.blue }} />
+                      <Typography variant="body1" sx={{ color: colors.text.primary }}>
+                        Chuỗi ngày học: {weeklyProgress.streak} ngày
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <ExerciseIcon sx={{ color: colors.accent.green }} />
+                      <Typography variant="body1" sx={{ color: colors.text.primary }}>
+                        Tổng số bài tập: {weeklyProgress.totalExercises}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <TrendingUpIcon sx={{ color: colors.accent.purple }} />
+                      <Typography variant="body1" sx={{ color: colors.text.primary }}>
+                        Cải thiện: +{weeklyProgress.improvement}% so với tuần trước
+                      </Typography>
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Subject Statistics */}
+        <Grid item xs={12} md={6}>
+          <Card sx={{ borderRadius: '20px', boxShadow: '0 4px 20px rgba(0,0,0,0.08)', height: '100%' }}>
+            <CardContent sx={{ p: 4 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                <TrendingUpIcon sx={{ fontSize: 40, color: colors.accent.blue, mr: 2 }} />
+                <Typography variant="h5" sx={{ fontWeight: 'bold', color: colors.accent.blue }}>
+                  Thống kê theo môn học
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                <Grid container spacing={3}>
+                  {subjectStats.map((subject, index) => (
+                    <Grid item xs={12} sm={6} md={4} key={index}>
+                      <Box sx={{
+                        p: 2,
+                        borderRadius: 2,
+                        border: `1px solid ${subject.color}30`,
+                        backgroundColor: `${subject.color}08`
+                      }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                          <Typography variant="h6" sx={{ fontWeight: 'bold', color: colors.text.primary }}>
+                            {subject.subject}
+                          </Typography>
+                          <Chip
+                            label={subject.strength}
+                            size="small"
+                            sx={{
+                              backgroundColor: `${subject.color}15`,
+                              color: subject.color,
+                              fontWeight: 'bold'
+                            }}
+                          />
+                        </Box>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                          <Box>
+                            <Typography variant="body2" sx={{ color: colors.text.secondary, mb: 1 }}>
+                              Độ chính xác: {subject.accuracy}%
+                            </Typography>
+                            <LinearProgress
+                              variant="determinate"
+                              value={subject.accuracy}
+                              sx={{
+                                height: 8,
+                                borderRadius: 4,
+                                backgroundColor: `${subject.color}15`,
+                                '& .MuiLinearProgress-bar': {
+                                  backgroundColor: subject.color
+                                }
+                              }}
+                            />
+                          </Box>
+                          <Typography variant="body2" sx={{ color: colors.text.secondary, mb: 1 }}>
+                            Tổng số câu đã làm: {subject.totalQuestions}
+                          </Typography>
+                          <Box sx={{ pl: 2, borderLeft: `2px solid ${subject.color}30` }}>
+                            {subject.topics.map((topic, topicIndex) => (
+                              <Box key={topicIndex} sx={{ mb: 1 }}>
+                                <Typography variant="body2" sx={{ color: colors.text.secondary }}>
+                                  {topic.name}: {topic.accuracy}% ({topic.totalQuestions} câu)
+                                </Typography>
+                              </Box>
+                            ))}
+                          </Box>
+                        </Box>
+                      </Box>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
 
       {/* Main Content Grid */}
       <Grid container spacing={4}>

@@ -16,10 +16,12 @@ import '@/app/globals.css'
 // Generated Icon CSS Imports
 import '@assets/iconify-icons/generated-icons.css'
 
+import { CartProvider } from '@/contexts/CartContext'
+
 export const metadata = {
-  title: 'Vuexy - MUI Next.js Admin Dashboard Template',
+  title: 'InterEdu - MUI Next.js Admin Dashboard Template',
   description:
-    'Vuexy - MUI Next.js Admin Dashboard Template - is the most developer friendly & highly customizable Admin Dashboard Template based on MUI v5.'
+    'InterEdu - MUI Next.js Admin Dashboard Template - is the most developer friendly & highly customizable Admin Dashboard Template based on MUI v5.'
 }
 
 const RootLayout = async (props: ChildrenType) => {
@@ -34,7 +36,9 @@ const RootLayout = async (props: ChildrenType) => {
     <html id='__next' lang='en' dir={direction} suppressHydrationWarning>
       <body className='flex is-full min-bs-full flex-auto flex-col'>
         <InitColorSchemeScript attribute='data' defaultMode={systemMode} />
-        {children}
+        <CartProvider>
+          {children}
+        </CartProvider>
       </body>
     </html>
   )

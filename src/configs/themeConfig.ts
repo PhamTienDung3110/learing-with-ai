@@ -50,9 +50,9 @@ export type Config = {
 }
 
 const themeConfig: Config = {
-  templateName: 'Vuexy',
+  templateName: 'InterEdu',
   homePageUrl: '/home',
-  settingsCookieName: 'vuexy-mui-next-demo-1',
+  settingsCookieName: 'interedu-mui-next-demo-1',
   mode: 'system', // 'system', 'light', 'dark'
   skin: 'default', // 'default', 'bordered'
   semiDark: false, // true, false

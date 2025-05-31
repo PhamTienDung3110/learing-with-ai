@@ -7,6 +7,7 @@ import classnames from 'classnames'
 import NavToggle from './NavToggle'
 import ModeDropdown from '@components/layout/shared/ModeDropdown'
 import UserDropdown from '@components/layout/shared/UserDropdown'
+import CartIcon from '@components/cart/CartIcon'
 
 // Util Imports
 import { verticalLayoutClasses } from '@layouts/utils/layoutClasses'
@@ -18,7 +19,8 @@ const NavbarContent = () => {
         <NavToggle />
         <ModeDropdown />
       </div>
-      <div className='flex items-center'>
+      <div className='flex items-center gap-4'>
+        <CartIcon />
         <UserDropdown />
       </div>
     </div>

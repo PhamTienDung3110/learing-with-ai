@@ -105,7 +105,7 @@ const FrontMenu = (props: Props) => {
           'text-primary': pathname.includes('/practice/exam')
         })}
       >
-        Chọn đề thi
+        Đề thi
       </Typography>
       <Typography
         color='text.primary'

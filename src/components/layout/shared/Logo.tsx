@@ -10,7 +10,7 @@ import styled from '@emotion/styled'
 import type { VerticalNavContextProps } from '@menu/contexts/verticalNavContext'
 
 // Component Imports
-import VuexyLogo from '@core/svg/Logo'
+import InterEduLogo from '@core/svg/Logo'
 
 // Config Imports
 import themeConfig from '@configs/themeConfig'
@@ -70,7 +70,7 @@ const Logo = ({ color }: any) => {
 
   return (
     <div className='flex items-center'>
-      <VuexyLogo className='text-2xl text-primary' />
+      <InterEduLogo className='text-2xl text-primary' />
       <LogoText
         color={color}
         ref={logoTextRef}

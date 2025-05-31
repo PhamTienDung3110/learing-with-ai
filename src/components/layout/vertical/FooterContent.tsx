@@ -37,7 +37,7 @@ const FooterContent = () => {
             More Themes
           </Link>
           <Link
-            href='https://demos.pixinvent.com/vuexy-nextjs-admin-template/documentation'
+            href='https://demos.pixinvent.com/InterEdu-nextjs-admin-template/documentation'
             target='_blank'
             className='text-primary'
           >

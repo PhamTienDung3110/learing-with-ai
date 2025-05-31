@@ -12,6 +12,9 @@ type StyledMainProps = {
 }
 
 const StyledMain = styled.main<StyledMainProps>`
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
   padding: ${themeConfig.layoutPadding}px;
   ${({ isContentCompact }) =>
     isContentCompact &&
