@@ -20,7 +20,7 @@ const TextFieldStyled = styled(TextField)<TextFieldProps>(({ theme }) => ({
     marginBottom: theme.spacing(1),
     color: 'var(--mui-palette-text-primary)',
     '&:not(.Mui-error).MuiFormLabel-colorPrimary.Mui-focused': {
-      color: 'var(--mui-palette-primary-main) !important'
+      color: '#ebbf2f !important'
     },
     '&.Mui-disabled': {
       color: 'var(--mui-palette-text-disabled)'

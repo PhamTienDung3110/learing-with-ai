@@ -77,8 +77,7 @@ const LoginV1 = () => {
             <div className='flex justify-between items-center gap-x-3 gap-y-1 flex-wrap'>
               <FormControlLabel control={<Checkbox />} label='Ghi nhớ tôi' />
               <Typography
-                className='text-end'
-                color='primary.main'
+                className='text-end text-primary'
                 component={Link}
                 href={'/'}
               >
@@ -93,7 +92,7 @@ const LoginV1 = () => {
               <Typography
                 component={Link}
                 href={'/register'}
-                color='primary.main'
+                className='text-primary'
               >
                 Tạo tài khoản
               </Typography>
