@@ -385,11 +385,11 @@ const IntroductionPage = () => {
                       content: '""',
                       position: 'absolute',
                       top: '50%',
-                      right: '-50%',
+                      right: '0',
                       width: '100%',
                       height: '2px',
                       bgcolor: 'primary.light',
-                      display: index === steps.length - 1 ? 'none' : { xs: 'none', md: 'block' }
+                      display: index === steps.length ? 'none' : { xs: 'none', md: 'block' }
                     }
                   }}
                 >
