@@ -173,7 +173,7 @@ const PaymentModal = ({ open, onClose }: PaymentModalProps) => {
       </DialogContent>
       <DialogActions sx={{ px: 3, pb: 3 }}>
         {activeStep > 0 && (
-          <Button onClick={handleBack}>
+          <Button onClick={handleBack} sx={{ color: 'black' }}>
             Quay lại
           </Button>
         )}

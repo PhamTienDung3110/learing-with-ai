@@ -71,7 +71,7 @@ const Logo = ({ color }: { color?: CSSProperties['color'] }) => {
 
   return (
     <div className='flex items-center'>
-      <InterEduLogo className='text-2xl text-primary' />
+      <InterEduLogo className='text-2xl' />
       <LogoText
         color={color}
         ref={logoTextRef}

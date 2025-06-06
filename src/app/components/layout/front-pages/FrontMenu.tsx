@@ -92,7 +92,7 @@ const FrontMenu = (props: Props) => {
         component={Link}
         href='/home'
         className={classnames('font-medium plb-3 pli-1.5 hover:text-primary', {
-          'text-primary': pathname === '/home'
+          'text-[#FEE63C]': pathname === '/home'
         })}
       >
         Trang chủ
@@ -102,7 +102,7 @@ const FrontMenu = (props: Props) => {
         component={Link}
         href='/practice/exam'
         className={classnames('font-medium plb-3 pli-1.5 hover:text-primary', {
-          'text-primary': pathname.includes('/practice/exam')
+          'text-[#FEE63C]': pathname.includes('/practice/exam')
         })}
       >
         Đề thi
@@ -112,7 +112,7 @@ const FrontMenu = (props: Props) => {
         component={Link}
         href='/practice/completed-exams'
         className={classnames('font-medium plb-3 pli-1.5 hover:text-primary', {
-          'text-primary': pathname.includes('/practice/completed-exams')
+          'text-[#FEE63C]': pathname.includes('/practice/completed-exams')
         })}
       >
         Đề đã làm
@@ -122,7 +122,7 @@ const FrontMenu = (props: Props) => {
         component={Link}
         href='/ai-chat'
         className={classnames('font-medium plb-3 pli-1.5 hover:text-primary', {
-          'text-primary': pathname === '/ai-chat'
+          'text-[#FEE63C]': pathname === '/ai-chat'
         })}
       >
         Hỏi AI
@@ -132,7 +132,7 @@ const FrontMenu = (props: Props) => {
         component={Link}
         href='/practice/books'
         className={classnames('font-medium plb-3 pli-1.5 hover:text-primary', {
-          'text-primary': pathname === '/practice/books'
+          'text-[#FEE63C]': pathname === '/practice/books'
         })}
       >
         Bộ sách
@@ -158,7 +158,7 @@ const FrontMenu = (props: Props) => {
         color='text.primary'
         href='/progress'
         className={classnames('font-medium plb-3 pli-1.5 hover:text-primary', {
-          'text-primary': pathname === '/progress'
+          'text-[#FEE63C]': pathname === '/progress'
         })}
       >
         Báo cáo

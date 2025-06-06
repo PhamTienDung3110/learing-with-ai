@@ -196,7 +196,7 @@ const IntroductionPage = () => {
                 href="/login"
                 sx={{
                   borderColor: 'primary.main',
-                  color: 'primary.main',
+                  color: 'black',
                   '&:hover': {
                     borderColor: 'primary.dark',
                     bgcolor: 'primary.light'
@@ -212,7 +212,7 @@ const IntroductionPage = () => {
                 href="/register"
                 sx={{
                   bgcolor: 'primary.main',
-                  color: 'white',
+                  color: 'black',
                   '&:hover': {
                     bgcolor: 'primary.dark'
                   }
@@ -276,8 +276,8 @@ const IntroductionPage = () => {
                   size="large"
                   onClick={handleStart}
                   sx={{
-                    bgcolor: 'white',
-                    color: 'primary.main',
+                    bgcolor: 'primary.main',
+                    color: 'black',
                     py: 1.5,
                     px: 4,
                     fontSize: '1.1rem',
@@ -324,7 +324,7 @@ const IntroductionPage = () => {
           sx={{
             p: 4,
             borderRadius: 2,
-            background: 'white'
+            bgcolor: 'primary.main'
           }}
         >
           <Grid container spacing={4}>
@@ -334,14 +334,14 @@ const IntroductionPage = () => {
                   <Typography
                     variant="h3"
                     sx={{
-                      color: 'primary.main',
+                      color: 'black',
                       fontWeight: 700,
                       mb: 1
                     }}
                   >
                     {stat.number}
                   </Typography>
-                  <Typography variant="body1" color="text.secondary">
+                  <Typography variant="body1" color="black">
                     {stat.label}
                   </Typography>
                 </Box>

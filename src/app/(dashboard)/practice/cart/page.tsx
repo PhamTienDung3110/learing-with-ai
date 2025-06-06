@@ -230,6 +230,7 @@ const CartPage = () => {
               <Button
                 variant="outlined"
                 onClick={handleBack}
+                sx={{ color: 'black' }}
                 startIcon={<Icon icon="tabler-arrow-left" />}
               >
                 Quay lại

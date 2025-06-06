@@ -468,6 +468,7 @@ const ExamPage = () => {
                     startIcon={<NavigateBeforeIcon />}
                     onClick={handlePrevQuestion}
                     disabled={currentQuestion === 0}
+                    sx={{ color: 'black !important' }}
                   >
                     Câu trước
                   </Button>
@@ -476,6 +477,7 @@ const ExamPage = () => {
                     endIcon={<NavigateNextIcon />}
                     onClick={handleNextQuestion}
                     disabled={currentQuestion === mockExam.questions.length - 1}
+                    sx={{ color: 'black' }}
                   >
                     Câu tiếp
                   </Button>
@@ -519,7 +521,7 @@ const ExamPage = () => {
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setShowSubmitDialog(false)}>Hủy</Button>
+          <Button onClick={() => setShowSubmitDialog(false)} sx={{ color: 'black' }}>Hủy</Button>
           <Button onClick={handleSubmit} variant="contained" color="primary">
             Nộp bài
           </Button>

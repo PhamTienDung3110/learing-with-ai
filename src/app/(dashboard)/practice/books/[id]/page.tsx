@@ -125,7 +125,7 @@ const BookDetailPage = ({ params }: BookDetailPageProps) => {
               <List>
                 {book.subjects.map((subject: Subject) => (
                   <Box key={subject.id}>
-                    <Typography variant="h6" sx={{ mb: 2, color: 'primary.main' }}>
+                    <Typography variant="h5" sx={{ mb: 2, color: 'primary.main', pt: 4 }}>
                       {subject.name}
                     </Typography>
                     {subject.chapters.map((chapter: Chapter) => (
@@ -269,7 +269,7 @@ const BookDetailPage = ({ params }: BookDetailPageProps) => {
                 startIcon={<Icon icon={isInCart ? "tabler-shopping-cart-check" : "tabler-shopping-cart"} />}
                 color="primary"
                 onClick={handleAddToCart}
-                sx={{ color: '#deaf18' }}
+                sx={{ color: 'black' }}
                 disabled={isInCart}
               >
                 {isInCart ? 'Đã thêm vào giỏ' : 'Mua khóa học'}

@@ -313,7 +313,8 @@ const RegisterV1 = () => {
             sx={{
               borderRadius: '8px',
               textTransform: 'none',
-              px: 4
+              px: 4,
+              color: 'black'
             }}
           >
             Hủy

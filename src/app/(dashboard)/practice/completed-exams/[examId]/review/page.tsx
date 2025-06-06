@@ -385,11 +385,11 @@ const ReviewPage = () => {
                 Giải thích:
               </Typography>
               <Button
-                variant="outlined"
+                variant="contained"
                 color="primary"
                 startIcon={<SmartToyIcon />}
                 onClick={() => handleOpenAIDialog(question)}
-                sx={{ textTransform: 'none' }}
+                sx={{ textTransform: 'none', color: 'black' }}
               >
                 Giải thích với AI
               </Button>

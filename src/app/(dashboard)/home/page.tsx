@@ -23,7 +23,7 @@ import {
 // Color Config
 const colors = {
   light: '#FFC107',
-  main: '#ebbf2f',
+  main: '#FEE63C',
   dark: '#FF6F00',
   background: '#F8F9FA',
   text: {
@@ -71,11 +71,11 @@ const ExerciseCard = styled(Card)(() => ({
 }))
 
 const WelcomeText = styled(Typography)(() => ({
-  background: 'linear-gradient(45deg, #fff 30%, #f0f0f0 90%)',
+  background: 'linear-gradient(45deg, black 30%, black 90%)',
   WebkitBackgroundClip: 'text',
   WebkitTextFillColor: 'transparent',
-  textShadow: '0 2px 4px rgba(0,0,0,0.1)',
   position: 'relative',
+  color: 'black',
   '&::after': {
     content: '""',
     position: 'absolute',
@@ -240,7 +240,7 @@ const HomePage = () => {
                 <Typography sx={{
                   opacity: 0.9,
                   fontSize: '1.1rem',
-                  color: 'rgba(255,255,255,0.9)'
+                  color: 'black'
                 }}>
                   Chúc bạn một ngày học tập hiệu quả
                 </Typography>
@@ -249,7 +249,7 @@ const HomePage = () => {
                   size="small"
                   sx={{
                     backgroundColor: 'rgba(255,255,255,0.2)',
-                    color: 'white',
+                    color: 'black',
                     fontWeight: 'bold',
                     backdropFilter: 'blur(4px)',
                     '&:hover': {
@@ -540,13 +540,10 @@ const HomePage = () => {
                                 size="small"
                                 sx={{
                                   backgroundColor:
-                                    suggestion.difficulty === 'Dễ' ? `${colors.accent.green}15` :
-                                      suggestion.difficulty === 'Trung bình' ? `${colors.main}15` :
-                                        `${colors.accent.purple}15`,
-                                  color:
-                                    suggestion.difficulty === 'Dễ' ? colors.accent.green :
-                                      suggestion.difficulty === 'Trung bình' ? colors.main :
-                                        colors.accent.purple,
+                                    suggestion.difficulty === 'Dễ' ? `${colors.accent.green}` :
+                                      suggestion.difficulty === 'Trung bình' ? `orange` :
+                                        `red`,
+                                  color: 'white',
                                   fontWeight: 'bold'
                                 }}
                               />
