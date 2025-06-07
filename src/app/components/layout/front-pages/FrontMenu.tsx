@@ -66,7 +66,7 @@ const Wrapper = (props: WrapperProps) => {
     )
   }
 
-  return <div className={classnames('flex items-center flex-wrap gap-x-4 gap-y-3', className)}>{children}</div>
+  return <div className={classnames('flex items-center flex-wrap gap-x-3 gap-y-3', className)}>{children}</div>
 }
 
 const FrontMenu = (props: Props) => {
@@ -135,7 +135,7 @@ const FrontMenu = (props: Props) => {
           'text-[#FEE63C]': pathname === '/practice/books'
         })}
       >
-        Bộ sách
+        Thẻ luyện tập
       </Typography>
       {/* <Typography
         color='text.primary'

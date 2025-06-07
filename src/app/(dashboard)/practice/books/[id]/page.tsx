@@ -56,7 +56,7 @@ const BookDetailPage = ({ params }: BookDetailPageProps) => {
   if (!book) {
     return (
       <Box sx={{ p: 4, textAlign: 'center' }}>
-        <Typography variant="h5">Không tìm thấy bộ sách</Typography>
+        <Typography variant="h5">Không tìm thấy Thẻ luyện tập</Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
           ID: {decodedId}
         </Typography>
@@ -105,7 +105,7 @@ const BookDetailPage = ({ params }: BookDetailPageProps) => {
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
                 <Typography variant="h5" sx={{ fontWeight: 700 }}>
-                  Nội dung bộ sách
+                  Nội dung Thẻ luyện tập
                 </Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                   <Chip
@@ -206,7 +206,7 @@ const BookDetailPage = ({ params }: BookDetailPageProps) => {
           </Card>
         </Grid>
 
-        {/* Chi tiết bộ sách */}
+        {/* Chi tiết Thẻ luyện tập */}
         <Grid item xs={12} md={3}>
           <Card>
             <CardContent>

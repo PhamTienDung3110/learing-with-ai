@@ -13,7 +13,7 @@ const verticalMenuData = (): VerticalMenuDataType[] => [
     icon: 'tabler-info-circle'
   },
   {
-    label: 'Bộ sách',
+    label: 'Thẻ luyện tập',
     href: '/practice/books',
     icon: 'tabler-book'
   }

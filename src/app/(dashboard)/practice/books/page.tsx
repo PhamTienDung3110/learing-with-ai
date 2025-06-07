@@ -72,7 +72,7 @@ const BooksPage = () => {
           <TextField
             fullWidth
             size="small"
-            placeholder="Tìm kiếm bộ sách..."
+            placeholder="Tìm kiếm Thẻ luyện tập..."
             value={filters.searchQuery}
             onChange={e => setFilters(f => ({ ...f, searchQuery: e.target.value }))}
             InputProps={{
@@ -129,7 +129,7 @@ const BooksPage = () => {
       <Grid item xs={12} md={9}>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 3, gap: 2, flexWrap: 'wrap' }} suppressHydrationWarning>
           <Typography variant="h5" sx={{ fontWeight: 700, flex: 1 }}>
-            Danh sách bộ sách
+            Danh sách Thẻ luyện tập
           </Typography>
           <FormControl size="small">
             <InputLabel>Sắp xếp theo</InputLabel>
@@ -150,7 +150,7 @@ const BooksPage = () => {
           {filteredBooks.length === 0 && (
             <Grid item xs={12}>
               <Paper sx={{ p: 5, textAlign: 'center', color: 'text.secondary' }} suppressHydrationWarning>
-                Không tìm thấy bộ sách phù hợp.
+                Không tìm thấy Thẻ luyện tập phù hợp.
               </Paper>
             </Grid>
           )}

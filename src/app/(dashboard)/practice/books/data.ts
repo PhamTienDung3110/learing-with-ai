@@ -50,7 +50,7 @@ export const books: Book[] = [
   {
     id: 'bộ-sách-cánh-diều-3',
     title: 'Lớp 3 Cánh diều',
-    description: 'Bộ sách giáo khoa Cánh Diều cho lớp 3',
+    description: 'Thẻ luyện tập giáo khoa Cánh Diều cho lớp 3',
     icon: 'tabler-book',
     color: '#FF6B6B',
     image: 'https://salt.tikicdn.com/cache/w1200/ts/product/b9/a0/7d/19f5a67abbccc6bf4795cc862dad5d73.jpg',
@@ -382,8 +382,8 @@ export const books: Book[] = [
   },
   {
     id: 'bộ-sách-cánh-diều-4',
-    title: 'Lớp 4 - Bộ sách Cánh Diều',
-    description: 'Bộ sách giáo khoa Cánh Diều cho lớp 4',
+    title: 'Lớp 4 - Thẻ luyện tập Cánh Diều',
+    description: 'Thẻ luyện tập giáo khoa Cánh Diều cho lớp 4',
     icon: 'tabler-book',
     color: '#FF6B6B',
     image: 'https://baovinhlong.com.vn/file/e7837c027f6ecd14017ffa4e5f2a0e34/dataimages/202302/original/images2515798_BVL_cc.jpg',
@@ -540,8 +540,8 @@ export const books: Book[] = [
   },
   {
     id: 'bộ-sách-cánh-diều-5',
-    title: 'Lớp 5 - Bộ sách Cánh Diều',
-    description: 'Bộ sách giáo khoa Cánh Diều cho lớp 5',
+    title: 'Lớp 5 - Thẻ luyện tập Cánh Diều',
+    description: 'Thẻ luyện tập giáo khoa Cánh Diều cho lớp 5',
     icon: 'tabler-book',
     color: '#FF6B6B',
     image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-lY-4Qy2iXu2AxkVU3JwETi5pVvFJWKQmfg&s',
@@ -750,7 +750,7 @@ export const books: Book[] = [
   {
     id: 'bộ-sách-cánh-diều-6',
     title: 'Lớp 6 - Cánh Diều',
-    description: 'Bộ sách giáo khoa Cánh Diều cho lớp 6',
+    description: 'Thẻ luyện tập giáo khoa Cánh Diều cho lớp 6',
     icon: 'tabler-book',
     color: '#FF6B6B',
     image: 'https://lh3.googleusercontent.com/proxy/jzXOfiAAc-v-NxLwIPg99yQIJYGZgvMXzhNl_NbY_lY5piwAJFwd73NhlyRaK233IYRbbRc7tMy_VbYwTPmNKlGOSNrYOcAcINIf28aWOlsLOYVFjyzc7pMBqz46DwvdyzJIGU7GXYgpuQiBvSE3DQ3RhCzX535bk66SEO568YY',
@@ -1055,7 +1055,7 @@ export const books: Book[] = [
   {
     id: 'bộ-sách-cánh-diều-7',
     title: 'Lớp 7 - Cánh Diều',
-    description: 'Bộ sách giáo khoa Cánh Diều cho lớp 7',
+    description: 'Thẻ luyện tập giáo khoa Cánh Diều cho lớp 7',
     icon: 'tabler-book',
     color: '#FF6B6B',
     image: 'https://www.baolongan.vn/image/news/2022/20220301/images/1071.jpg',
@@ -1371,7 +1371,7 @@ export const books: Book[] = [
   {
     id: 'bộ-sách-cánh-diều-8',
     title: 'Lớp 8 - Cánh Diều',
-    description: 'Bộ sách giáo khoa Cánh Diều cho lớp 8',
+    description: 'Thẻ luyện tập giáo khoa Cánh Diều cho lớp 8',
     icon: 'tabler-book',
     color: '#FF6B6B',
     image: 'https://giadinh.mediacdn.vn/296230595582509056/2023/3/10/photo-1678425739126-1678425739928686947180.jpg',
@@ -1586,7 +1586,7 @@ export const books: Book[] = [
   {
     id: 'bộ-sách-cánh-diều-9',
     title: 'Lớp 9 - Cánh Diều',
-    description: 'Bộ sách giáo khoa Cánh Diều cho lớp 9',
+    description: 'Thẻ luyện tập giáo khoa Cánh Diều cho lớp 9',
     icon: 'tabler-book',
     color: '#FF6B6B',
     image: 'https://xdcs.cdnchinhphu.vn/446259493575335936/2023/12/31/sgk9-17040323740382062033379.jpg',
@@ -1901,7 +1901,7 @@ export const books: Book[] = [
   {
     id: 'bộ-sách-cánh-diều-10',
     title: 'Lớp 10 - Cánh Diều',
-    description: 'Bộ sách giáo khoa Cánh Diều cho lớp 10',
+    description: 'Thẻ luyện tập giáo khoa Cánh Diều cho lớp 10',
     icon: 'tabler-book',
     color: '#FF6B6B',
     image: 'https://st.download.vn/data/image/2022/04/03/SGK-lop-10-700.jpg',
@@ -2117,7 +2117,7 @@ export const books: Book[] = [
   {
     id: 'bộ-sách-cánh-diều-11',
     title: 'Lớp 11 - Cánh Diều',
-    description: 'Bộ sách giáo khoa Cánh Diều cho lớp 11',
+    description: 'Thẻ luyện tập giáo khoa Cánh Diều cho lớp 11',
     icon: 'tabler-book',
     color: '#FF6B6B',
     image: 'https://giadinh.mediacdn.vn/296230595582509056/2023/4/26/1-16824784108542077345096.jpg',
@@ -2329,7 +2329,7 @@ export const books: Book[] = [
   {
     id: 'bộ-sách-cánh-diều-12',
     title: 'Lớp 12 - Cánh Diều',
-    description: 'Bộ sách giáo khoa Cánh Diều cho lớp 12',
+    description: 'Thẻ luyện tập giáo khoa Cánh Diều cho lớp 12',
     icon: 'tabler-book',
     color: '#FF6B6B',
     image: 'https://down-vn.img.susercontent.com/file/vn-11134208-7r98o-lx0irhiv4gd507',
